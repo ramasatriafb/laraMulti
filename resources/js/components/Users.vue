@@ -54,8 +54,8 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"  id="addNewLabel">Add New</h5>
-                    <h5 class="modal-title" id="addNewLabel">Update User's Info</h5>
+                    <h5 class="modal-title"  id="addNewLabel">Add New User</h5>
+                    <!-- <h5 class="modal-title" id="addNewLabel">Update User's Info</h5> -->
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -139,9 +139,9 @@
                     axios.get("api/user").then(({ data }) => (this.users = data));
             },
 
-            // createUser(){
-            //     this.form.post('api/user');
-            // }
+            createUser(){
+                this.form.post("api/user");
+            },
         },
         created() {
            this.loadUsers();

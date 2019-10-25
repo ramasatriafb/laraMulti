@@ -2097,10 +2097,10 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref.data;
         return _this.users = data;
       });
-    } // createUser(){
-    //     this.form.post('api/user');
-    // }
-
+    },
+    createUser: function createUser() {
+      this.form.post("api/user");
+    }
   },
   created: function created() {
     this.loadUsers();
@@ -38934,11 +38934,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
       _c("h5", { staticClass: "modal-title", attrs: { id: "addNewLabel" } }, [
-        _vm._v("Add New")
-      ]),
-      _vm._v(" "),
-      _c("h5", { staticClass: "modal-title", attrs: { id: "addNewLabel" } }, [
-        _vm._v("Update User's Info")
+        _vm._v("Add New User")
       ]),
       _vm._v(" "),
       _c(
