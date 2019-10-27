@@ -141,7 +141,22 @@
         },
         methods: {
             updateUser(){
-                
+                this.$Progress.start();
+                this.form.put('api/user/'+ this.form.id)
+                .then(() => {
+                    //success
+                    $('#addNew').modal('hide');
+                    Swal.fire(
+                            'Updated!',
+                            'Information has been updated.',
+                            'success'
+                        )
+                    this.$Progress.finish();
+                    Fire.$emit('AfterCreate');
+                })
+                .catch(()=>{
+                    this.$Progress.fail();
+                });
             },
             editModal(user){
                 this.editmode = true;
@@ -173,8 +188,7 @@
                             'Your file has been deleted.',
                             'success'
                             )
-                            Fire.$emit('AfterCreate');
-                        
+                            Fire.$emit('AfterCreate');                        
                             }).catch(()=>{
                                 Swal("Failed!"," There was something wrong.", "warning");
                             });
@@ -187,7 +201,6 @@
 
             createUser(){
                 this.$Progress.start();
-
                 this.form.post("api/user")
                 .then(() => {
                     Fire.$emit('AfterCreate');
