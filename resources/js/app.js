@@ -10,7 +10,7 @@ window.Vue = require('vue');
 import moment from 'moment';
 import { Form, HasError, AlertError } from 'vform';
 import Swal from 'sweetalert2'
-window.swal = Swal;
+window.Swal = Swal;
 
 const toast = Swal.mixin({
     toast: true,
@@ -20,7 +20,6 @@ const toast = Swal.mixin({
 })
 
 window.toast = toast;
-
 
 window.Form = Form;
 Vue.component(HasError.name, HasError)
