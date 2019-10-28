@@ -81,7 +81,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                            <div class="col-sm-10">
+                            <div class="col-sm-10"> 
                             <input v-model="form.email" type="email" class="form-control" id="inputEmail" placeholder="Email">
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                         <div class="form-group row">
                             <label for="inputPhoto" class="col-sm-2 col-form-label">Profile Photo</label>
                             <div class="col-sm-10">
-                            <input type="file" class="form-control" id="inputPhoto">
+                            <input type="file" @change="updateProfile" name="photo" class="form-control" id="inputPhoto">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -104,17 +104,8 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="offset-sm-2 col-sm-10">
-                            <div class="checkbox">
-                                <label>
-                                <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                </label>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="offset-sm-2 col-sm-10">
-                            <button type="submit" class="btn btn-danger">Submit</button>
+                            <div class="offset-sm-2 col-sm-12">
+                            <button @click.prevent="updateInfo" type="submit" class="btn btn-success">Update</button>
                             </div>
                         </div>
                         </form>
@@ -146,6 +137,30 @@
         },
         mounted() {
             console.log('Component mounted.')
+        },
+
+        methods:{
+            updateInfo(){
+                this.form.put('api/profile')
+                .then(()=>{
+
+                })
+                .catch(()=>{
+
+                })
+            },
+            updateProfile(e){
+                let file = e.target.files[0];
+                
+                let reader = new FileReader();
+                
+                reader.onloadend = (file) => {
+                    // console.log(reader.result);
+                    this.form.photo = reader.result;
+                    console.log(this.form.photo);
+                }
+                reader.readAsDataURL(file);
+            } 
         },
 
         created(){
