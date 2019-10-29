@@ -76,31 +76,37 @@
                         <div class="form-group row">
                             <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
-                            <input v-model="form.name" type="text" class="form-control" id="inputName" placeholder="Name">
+                            <input v-model="form.name" type="text" class="form-control" :class="{ 'is-invalid': form.errors.has('name') }" id="name" name="name" placeholder="Name">
+                            <has-error :form="form" field="name"></has-error>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10"> 
-                            <input v-model="form.email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+                            <input v-model="form.email" type="email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }" id="email" name="email" placeholder="Email">
+                            <has-error :form="form" field="email"></has-error>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                            <div class="col-sm-10">
-                            <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                            <label for="Bio" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10"> 
+                            <textarea v-model="form.bio" name="bio" id="bio"
+                            placeholder="Short bio for user (Optional)"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
+                            <has-error :form="form" field="bio"></has-error>
                             </div>
-                        </div>
+                         </div>
                         <div class="form-group row">
                             <label for="inputPhoto" class="col-sm-2 col-form-label">Profile Photo</label>
                             <div class="col-sm-10">
-                            <input type="file" @change="updateProfile" name="photo" class="form-control" id="inputPhoto">
+                            <input type="file" @change="updateProfile" name="photo" class="form-control" id="photo">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputPassword" class="col-sm-2 col-form-label">Passport (leave empty if not changing</label>
                             <div class="col-sm-10">
-                            <textarea class="form-control" id="inputPassword" placeholder="Password"></textarea>
+                            <input v-model="form.password" type="password" class="form-control" :class="{ 'is-invalid': form.errors.has('password') }" id="password" name="password" placeholder="Password">
+                            <has-error :form="form" field="password"></has-error>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -144,7 +150,11 @@
                 this.$Progress.start();
                 this.form.put('api/profile')
                 .then(()=>{
-
+                    Swal.fire(
+                        'Updated!',
+                        'Information has been updated.',
+                        'success'
+                    )
                     this.$Progress.finish();
                 })
                 .catch(()=>{
