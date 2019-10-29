@@ -2097,14 +2097,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getProfilePhoto: function getProfilePhoto() {
-      var photo = "img/profile/" + this.form.photo;
+      var photo = this.form.photo.length > 100 ? this.form.photo : "img/profile/" + this.form.photo;
       return photo;
     },
     updateInfo: function updateInfo() {
       var _this = this;
 
       this.$Progress.start();
+
+      if (this.form.password == '') {
+        this.form.password = undefined;
+      }
+
       this.form.put('api/profile').then(function () {
+        Fire.$emit('AfterUpdate');
         Swal.fire('Updated!', 'Information has been updated.', 'success');
 
         _this.$Progress.finish();
@@ -2133,14 +2139,22 @@ __webpack_require__.r(__webpack_exports__);
           text: 'You are uploading a large file'
         });
       }
+    },
+    loadUserProfile: function loadUserProfile() {
+      var _this3 = this;
+
+      axios.get("api/profile").then(function (_ref) {
+        var data = _ref.data;
+        return _this3.form.fill(data);
+      });
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
-    axios.get('api/profile').then(function (_ref) {
-      var data = _ref.data;
-      return _this3.form.fill(data);
+    this.loadUserProfile();
+    Fire.$on('AfterUpdate', function () {
+      _this4.loadUserProfile();
     });
   }
 });
@@ -61079,7 +61093,7 @@ var render = function() {
                           staticClass: "col-sm-2 col-form-label",
                           attrs: { for: "Bio" }
                         },
-                        [_vm._v("Email")]
+                        [_vm._v("Bio")]
                       ),
                       _vm._v(" "),
                       _c(

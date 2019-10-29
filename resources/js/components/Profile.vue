@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="Bio" class="col-sm-2 col-form-label">Email</label>
+                            <label for="Bio" class="col-sm-2 col-form-label">Bio</label>
                             <div class="col-sm-10"> 
                             <textarea v-model="form.bio" name="bio" id="bio"
                             placeholder="Short bio for user (Optional)"
@@ -145,17 +145,21 @@
             console.log('Component mounted.')
         },
 
-        methods:{
+        methods:{ 
 
             getProfilePhoto(){
-                let photo = "img/profile/"+ this.form.photo ;
+                let photo = (this.form.photo.length > 100 )? this.form.photo : "img/profile/"+ this.form.photo ;
                 return photo;
             },
 
             updateInfo(){
                 this.$Progress.start();
+                if(this.form.password == ''){
+                    this.form.password = undefined;
+                }
                 this.form.put('api/profile')
                 .then(()=>{
+                    Fire.$emit('AfterUpdate');
                     Swal.fire(
                         'Updated!',
                         'Information has been updated.',
@@ -186,12 +190,18 @@
                          text: 'You are uploading a large file',
                      })
                 }
-            } 
+            },
+            loadUserProfile(){
+                    axios.get("api/profile").then(({ data }) => (this.form.fill(data)));
+            }, 
         },
+        
 
         created(){
-            axios.get('api/profile')
-            .then(({data})=> (this.form.fill(data)));
+            this.loadUserProfile();
+            Fire.$on('AfterUpdate',() => {
+               this.loadUserProfile();
+           });
         }
     }
 </script>
