@@ -141,12 +141,14 @@
 
         methods:{
             updateInfo(){
+                this.$Progress.start();
                 this.form.put('api/profile')
                 .then(()=>{
 
+                    this.$Progress.finish();
                 })
                 .catch(()=>{
-
+                    this.$Progress.fail();
                 })
             },
             updateProfile(e){
@@ -154,12 +156,20 @@
                 
                 let reader = new FileReader();
                 
-                reader.onloadend = (file) => {
-                    // console.log(reader.result);
-                    this.form.photo = reader.result;
-                    console.log(this.form.photo);
+                if(file['size'] < 2111775){
+                    reader.onloadend = (file) => {
+                        // console.log(reader.result);
+                        this.form.photo = reader.result;
+                        console.log(this.form.photo);
+                    }
+                    reader.readAsDataURL(file);
+                }else{
+                     Swal.fire({
+                         type: 'error',
+                         title: 'Oops..',
+                         text: 'You are uploading a large file',
+                     })
                 }
-                reader.readAsDataURL(file);
             } 
         },
 
