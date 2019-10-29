@@ -192,7 +192,9 @@
                 }
             },
             loadUserProfile(){
+                    this.$Progress.start();
                     axios.get("api/profile").then(({ data }) => (this.form.fill(data)));
+                    this.$Progress.finish();
             }, 
         },
         
