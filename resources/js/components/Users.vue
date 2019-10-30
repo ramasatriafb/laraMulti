@@ -27,9 +27,9 @@
                   </tr>
 
 
-                  <tr v-for="user in users.data" :key="user.id">
+                  <tr v-for="(user,i) in users.data" :key="user.id">
 
-                    <td>{{user.id}}</td>
+                    <td>{{i+1}}</td>
                     <td>{{user.name}}</td>
                     <td>{{user.email}}</td>
                     <td>{{user.type | upText}}</td>
@@ -48,7 +48,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                  <!-- <pagination :data="users" @pagination-change-page="getResults"></pagination> -->
+                  <pagination :data="users" @pagination-change-page="getResults"></pagination>
               </div>
             </div>
             <!-- /.card -->
@@ -62,7 +62,7 @@
         
         <!-- Modal -->
             <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-  centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" v-show="!editmode" id="addNewLabel">Add New User</h5>
@@ -144,8 +144,14 @@
                     photo: ''
                 })
             }
-        },
+        }, 
         methods: {
+            getResults(page = 1){
+                axios.get('api/user?page=' + page)
+                .then(response => {
+                    this.users = response.data
+                });
+            },
             updateUser(){
                 this.$Progress.start();
                 this.form.put('api/user/'+ this.form.id)
