@@ -146,4 +146,16 @@ class UserController extends Controller
 
         return ['message' => ' User Deleted'];
     }
+
+    public function search(){
+        if ($search = \Request::get('q')){
+            $users = User::where(function($query) use ($search){
+                $query->where('name','LIKE', "%$search%")
+                ->orwhere('email','LIKE', "%$search%")
+                ->orwhere('type','LIKE', "%$search%");
+            })->paginate(5);
+        }
+
+        return $users;
+    }
 }
