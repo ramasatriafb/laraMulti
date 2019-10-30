@@ -35,17 +35,21 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 let routes = [
-    { path: '/dashboard', component: require('./components/Dashboard.vue').default },
-    { path: '/developer', component: require('./components/Developer.vue').default },
-    { path: '/profile', component: require('./components/Profile.vue').default },
-    { path: '/users', component: require('./components/Users.vue').default },
-    { path: '*', component: require('./components/NotFound.vue').default }
+    { path: '/dashboard', component: require('./components/Dashboard.vue').default, meta: {title: 'Dashboard'} },
+    { path: '/developer', component: require('./components/Developer.vue').default, meta: {title: 'Developer'} },
+    { path: '/profile', component: require('./components/Profile.vue').default, meta: {title: 'Profile'} },
+    { path: '/users', component: require('./components/Users.vue').default, meta: {title: 'Users Data'} },
+    { path: '*', component: require('./components/NotFound.vue').default, meta: {title: '404 Not Found'} }
   ]
 
 
 const router = new VueRouter({
     mode: 'history',
     routes // short for `routes: routes`
+})
+router.beforeEach((to,from, next)=> {
+    document.title = to.meta.title
+    next()
 })
 
 import VueProgressBar from 'vue-progressbar'
