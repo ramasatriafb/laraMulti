@@ -1,13 +1,13 @@
 <template>
     <div class="container">
         <div class="row mt-5" v-if="$gate.isAdminOrAuthor()">
-          <div class="col-md-12">
+          <div class="col-md-12" id="printArea">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Users Table</h3>
 
                 <div class="card-tools">
-                  <button type="button" class="btn btn-success" @click="newModal()" data-toggle="modal" data-target="#addNew">
+                  <button type="button" id="button" class="btn btn-success" @click="newModal()" data-toggle="modal" data-target="#addNew">
                       Add New
                       <i class="fas fa-user-plus fa-fw"></i>
                     </button>
@@ -23,7 +23,7 @@
                         <th>Email</th>
                         <th>Type</th>
                         <th>Registered At</th>
-                        <th>Modify</th>
+                        <th id="no-print">Modify</th>
                   </tr>
 
 
@@ -35,7 +35,7 @@
                     <td>{{user.type | upText}}</td>
                     <td>{{user.created_at | myDate}}</td>
 
-                    <td>
+                    <td id="no-print">
                         <a href="#" @click="editModal(user)">
                             <i class="fa fa-edit blue"></i>
                         </a>
@@ -123,6 +123,18 @@
                 </div>
             </div>
             </div>
+
+            <div class="row no-print">
+                <div class="col-12">
+                  <a href="" @click.prevent="printme" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
+                  <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
+                    Payment
+                  </button>
+                  <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                    <i class="fas fa-download"></i> Generate PDF
+                  </button>
+                </div>
+              </div>
     </div>
 
     
@@ -214,6 +226,9 @@
                         this.$Progress.finish();
                     }
                 },
+                printme(){
+                    window.print();
+            },
 
             createUser(){
                 this.$Progress.start();
@@ -228,15 +243,15 @@
                 this.$Progress.finish();
                 })
                 .catch(() => {
-		   Swal.fire("Failed!"," There was something wrong.", "warning");
+                     Swal.fire("Failed!"," There was something wrong.", "warning");
                 });
                  
             },
         },
         created() {
             Fire.$on('searching',() => {
-		this.$Progress.start();
-               
+                this.$Progress.start();
+                
                 let query = this.$parent.search;
                 axios.get('api/findUser?q='+ query)
                 .then((data) => {
@@ -245,7 +260,7 @@
                 .catch(() => {
                     Swal.fire("Failed!"," There was something wrong.", "warning");
                 })
-		this.$Progress.finish();
+                this.$Progress.finish();
                 
             })
            this.loadUsers();
@@ -257,3 +272,4 @@
 
     }
 </script>
+

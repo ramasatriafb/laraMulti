@@ -18,3 +18,13 @@ $fa-font-path: "../webfonts";
     background-color: #0d6079;
     color: #fff ! important;
 }
+
+@media print
+{
+    body * { visibility: hidden; }
+    .card-footer {display: none; }
+    #button  { display:none; }
+    #no-print  { display:none; }
+    #printArea * { visibility: visible; }
+    #printArea { position: absolute; top: 40px; left: 30px; }
+}
