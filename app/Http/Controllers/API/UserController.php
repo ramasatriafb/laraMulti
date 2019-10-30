@@ -154,8 +154,9 @@ class UserController extends Controller
                 ->orwhere('email','LIKE', "%$search%")
                 ->orwhere('type','LIKE', "%$search%");
             })->paginate(5);
+        }else{
+            $users = User::latest()->paginate(5);
         }
-
         return $users;
     }
 }
