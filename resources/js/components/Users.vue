@@ -126,15 +126,11 @@
 
             <div class="row no-print">
                 <div class="col-12">
-                  <a href="" @click.prevent="printme" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                  <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
-                    Payment
-                  </button>
-                  <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                    <i class="fas fa-download"></i> Generate PDF
+                <button type="button" @click.prevent="printme" class="btn btn-primary float-right" style="margin-right: 5px;">
+                    <i class="fas fa-print"></i> Print
                   </button>
                 </div>
-              </div>
+            </div>
     </div>
 
     
